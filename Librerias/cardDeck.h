@@ -70,13 +70,11 @@ const Card CARD_DECK[52] = {
     {"♣", "10", 8},
     {"♣", "J", 9},
     {"♣", "Q", 10},
-    {"♣", "K", 11}
-};
+    {"♣", "K", 11}};
 
-const Card jokers[2] = {
+const Card JOCKERS[2] = {
     {"Joker", "Joker", 14},
-    {"Joker", "Joker", 14}
-};
+    {"Joker", "Joker", 14}};
 
 void shuffleDeck(Card (&shuffled_deck)[52])
 {
@@ -85,7 +83,9 @@ void shuffleDeck(Card (&shuffled_deck)[52])
 
     for (size_t i = 0; i < 52; i++)
     {
-        shuffled_deck[i] = CARD_DECK[i];
+        shuffled_deck[i].card_value = CARD_DECK[i].card_value;
+        shuffled_deck[i].score = CARD_DECK[i].score;
+        shuffled_deck[i].suit = CARD_DECK[i].suit;
     };
 
     shuffle(std::begin(shuffled_deck), std::end(shuffled_deck), generador);

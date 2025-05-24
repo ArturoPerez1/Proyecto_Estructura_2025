@@ -28,21 +28,24 @@ struct Node_Player
     int score_player = 0;
     std::string name_player = "";
     std::string position_player = "";
-    Node_Card *deck_player;
+    Node_Card *deck_player = NULL;
     Node_Player *next_player;
 };
 
-void createDeckPlayer(Node_Card *&deck_player) {
-
+void createDeckPlayer(Node_Card *&deck_player, Card (&card_deck)[52]) {
+    //Recibe el mazo del jugador y tambien recibe el mazo auxiliar que es de donde extraeremos 
+    //las cartas del jugador, hay que tomar ese mazo auxiliar y quitar las cartas que tomemos para 
+    //el mazo del jugador
 };
 
-void createPlayerList(Node_Player *&list_players, std::string name_player, int id)
+void createPlayerList(Node_Player *&list_players, std::string name_player, int id_player, Card (&card_deck)[52])
 {
     Node_Player *new_player = new Node_Player();
     Node_Player *aux1 = list_players;
     Node_Player *aux2;
 
     new_player->name_player = name_player;
+    new_player->id_player = id_player;
 
     while (aux1 != NULL)
     {
@@ -52,10 +55,12 @@ void createPlayerList(Node_Player *&list_players, std::string name_player, int i
 
     if (aux1 == list_players)
     {
+        createDeckPlayer(new_player->deck_player, card_deck);
         list_players = new_player;
     }
     else
     {
+        createDeckPlayer(new_player->deck_player, card_deck);
         aux2->next_player = new_player;
     }
 
