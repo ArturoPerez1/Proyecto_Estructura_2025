@@ -2,11 +2,6 @@
 #include <iostream>
 #include "./cardDeck.h"
 
-struct Node_Card
-{
-    Card card;
-    Node_Card *next_card;
-};
 
 /*
     Importante:
@@ -32,13 +27,33 @@ struct Node_Player
     Node_Player *next_player;
 };
 
-void createDeckPlayer(Node_Card *&deck_player, Card (&card_deck)[52]) {
     //Recibe el mazo del jugador y tambien recibe el mazo auxiliar que es de donde extraeremos 
     //las cartas del jugador, hay que tomar ese mazo auxiliar y quitar las cartas que tomemos para 
     //el mazo del jugador
+
+void createDeckPlayer(Node_Card *&deck_player, Card (&card_deck)[52]) {
+    int count = 0;
+    Node_Card *new_card = new Node_Card();
+    Node_Card *aux1 = deck_player;
+    Node_Card *aux2;
+
+    while(aux1 != NULL) {
+        aux2 = aux1;
+        aux1 = aux1->next_card;
+    }
+    
+    if(aux1 == deck_player){
+        deck_player = new_card;
+    }else{
+        aux2->next_card = new_card;
+    }
+
+
+    new_card->next_card = aux1;
+
 };
 
-void createPlayerList(Node_Player *&list_players, std::string name_player, int id_player, Card (&card_deck)[52])
+void createPlayerList(Node_Player *&list_players, Node_Card *&shuffled_deck, std::string name_player, int id_player)
 {
     Node_Player *new_player = new Node_Player();
     Node_Player *aux1 = list_players;
