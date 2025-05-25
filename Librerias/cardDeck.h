@@ -11,10 +11,6 @@ struct Card
     int score;
 };
 
-/*
- * Node_Card es para hacer la implementación de mazos de carta
- */
-
 struct Node_Card
 {
     Card card;
@@ -101,7 +97,7 @@ void shuffleDeck(Node_Card *&shuffled_deck)
         card_deck[i].score = CARD_DECK[i].score;
         card_deck[i].suit = CARD_DECK[i].suit;
     };
-    
+
     shuffle(std::begin(card_deck), std::end(card_deck), generador);
 
     for (size_t i = 0; i < 52; i++)

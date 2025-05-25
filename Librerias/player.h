@@ -2,7 +2,6 @@
 #include <iostream>
 #include "./cardDeck.h"
 
-
 /*
     Importante:
     Los jugadores estarán almacenados dentro de una lista enlazada. Por lo que
@@ -27,30 +26,42 @@ struct Node_Player
     Node_Player *next_player;
 };
 
-    //Recibe el mazo del jugador y tambien recibe el mazo auxiliar que es de donde extraeremos 
-    //las cartas del jugador, hay que tomar ese mazo auxiliar y quitar las cartas que tomemos para 
-    //el mazo del jugador
+void createDeckPlayer(Node_Card *&deck_player, Node_Card *&card_deck)
+{
+    int count = 1;
+    Node_Card *card_aux = card_deck;
+    Node_Card *deck_aux1 = deck_player;
+    Node_Card *deck_aux2;
 
-void createDeckPlayer(Node_Card *&deck_player, Card (&card_deck)[52]) {
-    int count = 0;
-    Node_Card *new_card = new Node_Card();
-    Node_Card *aux1 = deck_player;
-    Node_Card *aux2;
+    while ((card_aux != NULL) && (count <= 13))
+    {
+        Node_Card *new_card = new Node_Card();
+        new_card->card.card_value = card_aux->card.card_value;
+        new_card->card.score = card_aux->card.score;
+        new_card->card.suit = card_aux->card.suit;
 
-    while(aux1 != NULL) {
-        aux2 = aux1;
-        aux1 = aux1->next_card;
+        while (deck_aux1 != NULL)
+        {
+            deck_aux2 = deck_aux1;
+            deck_aux1 = deck_aux1->next_card;
+        }
+
+        if (deck_aux1 == deck_player)
+        {
+            deck_player = new_card;
+            new_card->next_card = deck_aux1;
+            deck_aux1 = deck_player;
+        }
+        else
+        {
+            deck_aux2->next_card = new_card;
+            new_card->next_card = deck_aux1;
+            deck_aux1 = deck_player;
+        }
+        card_deck = card_aux->next_card;
+        card_aux = card_deck;
+        count++;
     }
-    
-    if(aux1 == deck_player){
-        deck_player = new_card;
-    }else{
-        aux2->next_card = new_card;
-    }
-
-
-    new_card->next_card = aux1;
-
 };
 
 void createPlayerList(Node_Player *&list_players, Node_Card *&shuffled_deck, std::string name_player, int id_player)
@@ -70,12 +81,12 @@ void createPlayerList(Node_Player *&list_players, Node_Card *&shuffled_deck, std
 
     if (aux1 == list_players)
     {
-        createDeckPlayer(new_player->deck_player, card_deck);
+        createDeckPlayer(new_player->deck_player, shuffled_deck);
         list_players = new_player;
     }
     else
     {
-        createDeckPlayer(new_player->deck_player, card_deck);
+        createDeckPlayer(new_player->deck_player, shuffled_deck);
         aux2->next_player = new_player;
     }
 
